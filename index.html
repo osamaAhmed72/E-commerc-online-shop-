@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link rel="icon" href="images.png" type="image/x-icon" />
+    <title>Online Shop</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="mdb.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+</head>
+<body >
+    <div class="overlay"></div>
+    <div class="callUs">
+        <div class="hideIcons dNone">
+            <a class="fab-item call"      href="tel:+201110314566" aria-label="call">
+                <i class="fa-solid fa-phone"></i>
+            </a>
+            <a class="fab-item whatsapp"  href="https://wa.me/201110314566" target="_blank" rel="noopener" aria-label="whatsapp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a class="fab-item messenger" href="https://m.me/osamaasll" target="_blank" rel="noopener" aria-label="messenger">
+                <i class="fa-brands fa-facebook-messenger"></i>
+            </a>
+        </div>
+        <i class="fa-solid fa-message clickedForShow" ></i>
+        <i class="fa-solid fa-xmark "></i>
+    </div>
+    
+    <header>
+        <nav id="navbar" >
+            <a href="/" class="logo"><h1><span>Online Shop</span></h1></a>
+            <a href="#" class="locationLink" onclick="showPopUp()">
+                <div class="location">
+                <i class="fa-solid fa-location-dot"></i>
+                    <div class="selectionCuntry">
+                        <p>Drive to</p>
+                        <h1 class="cuntryselect"></h1>
+                    </div>
+                </div>
+            </a>
+            <div class="searchBox d-flex align-items-center">
+                <select id="categorySelect" class="selectCategory d-flex align-items-center ">
+                    <option value=""><p>All</p><i class="fa-solid fa-caret-down" ></i> 
+                </select>
+                <input id="searchInput" type="text" placeholder="Search for products...">
+                <i class="fa-solid fa-magnifying-glass searchIcon"></i>
+            </div>
+            
+            <div  class="profileLink hiddenLink">
+                <a  class="profileLink  hoverLink ">
+                    <p id="usernameInput"></p>
+                    <img id="imgSrcinput" src="" alt="">
+                </a>
+                <h5  class="logOut " onclick="signOut()"> logOut </h5>
+            </div>
+            <div class="login" >
+                <a href="Login.html">
+                    <p>Hello, sign in</p>
+                    <h1>Accounts & Lists <i class="fa-solid fa-caret-down accountList"></i> </h1>
+                </a>
+            </div>
+            <a href="Checkout.html" class="orders"><p>Orders</p></a>
+
+            
+            <a href="Cart.html" class="cartLink" >
+                <div class="cart">
+                    <img src="images-removebg-preview.png" alt=" cart">
+                    <p class="count" >0</p>
+                </div>
+                <p class="nameCart">Cart</p>
+            </a>
+            <i class="fa-solid fa-bars d-lg-none" onclick="showMenubar()"></i>
+        </nav>
+        <section class="rightSideNavMenu d-lg-none">
+            <div class="loginSide" >
+                <a href="Login.html">
+                    <p>Hello, sign in</p>
+                    <h1>Accounts & Lists <i class="fa-solid fa-caret-down accountList"></i> </h1>
+                </a>
+            </div>
+            <div  class="profileLinkSide hiddenLinkSide">
+                <a class="profileLinkSide  hoverLinkSide ">
+                    <div class="hoverLinkSide">
+                        <p id="usernameInputSide"></p>
+                        <img id="imgSrcinputSide" src="" alt="">
+                    </div>
+                </a>
+                <h5  class="logOutSide " onclick="signOutSide()"> logOut </h5>
+            </div>
+            <a href="#" class="locationLink" onclick="showPopUp()">
+                <div class="location">
+                <i class="fa-solid fa-location-dot"></i>
+                    <div class="selectionCuntry">
+                        <p>Drive to</p>
+                        <h1 class="cuntryselect"></h1>
+                    </div>
+                </div>
+            </a>
+            <a href="Checkout.html" class="orders"><p>Orders</p></a>
+            <a href="Cart.html" class="cartLink" >
+                <div class="cart">
+                    <img src="images-removebg-preview.png" alt=" cart">
+                    <p class="count" >0</p>
+                </div>
+                <p class="nameCart">Cart</p>
+            </a>
+        </section>
+        <div class="popUpOfLcation">
+            <div class="choseYours">
+                <p>Choose your delivery location</p>
+                <p class="closePopUp" onclick="closePopUp()">X</p>
+            </div>
+            <p style="padding: 0 15px; font-size: 14px; color: gray; margin-top: 10px; font-weight: 300;">
+                Delivery options and delivery speeds may vary for different locations</p>
+            
+            <select name="cuntry" id="cuntryy">
+            </select>
+        </div>
+        <div class="secondNavbar">
+            <i class="fa-solid fa-bars fa-bars-secondNav" onclick="showMenubarTwo()"></i>
+            <ul>
+                
+            </ul>
+        </div>
+        
+        <section class="leftMenuNavTwo" >
+            <h6 style="color: white; margin-top: 40px;">Filter with price</h6>
+            <div class="price-filter">
+                <input type="number" id="minPrice" placeholder="Min price" class="form-control" style="margin:5px 0;">
+                <input type="number" id="maxPrice" placeholder="Max price" class="form-control" style="margin:5px 0;">
+                <button id="applyPriceFilter" class="btn btn-sm btn-light">Apply</button>
+            </div>
+        </section>
+    </header>
+    <section class="imgsChange">
+        <i class="fa-solid fa-arrow-left controlPrev"></i>
+        <i class="fa-solid fa-arrow-right controlNext"></i>
+        <ul>
+            <img class="changeImgs" src="mobile.jpg"  alt="">
+            <img class="changeImgs" src="electronics.jpg"  alt="">
+            <img class="changeImgs" src="deals.jpg"  alt="">
+            <img class="changeImgs" src="mobileEx.jpg"  alt="">
+            <img class="changeImgs" src="fashion.jpg"  alt="">
+        </ul>
+    </section>
+
+    <section class="prouductsCard ">
+    </section>
+    <div class="productSlider">
+        <i class="fa-solid fa-angles-left"></i>
+        <span id="pageNumbers">
+        </span>
+        <i class="fa-solid fa-angles-right"></i>
+    </div>
+
+
+
+
+
+
+    <!----------------------------------- Footer --------------------------------->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>Get connected with us on social networks:</span>
+            </div>
+            <!-- Left -->
+    
+            <!-- Right -->
+            <div>
+                <a  href="https://facebook.com/osamaasll" target="_blank" class="me-4 text-reset">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                </a>
+                <a href="https://linkedin.com/in/osama-ahmed-50b82113a" target="_blank" class="me-4 text-reset">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/osamaAhmed72" target="_blank" class="me-4 text-reset">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+    
+        <!-- Section: Links  -->
+        <section class="">
+            <div class="container-fluid text-center text-md-start mt-5">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            <i class="fas fa-gem me-3"></i>Online Shop
+                        </h6>
+                        <p style="font-size: 14px; ">
+                            Here you can use rows and columns to organize your footer content. Lorem ipsum
+                            dolor sit amet, consectetur adipisicing elit.
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+    
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Products
+                        </h6>
+                        <p>
+                            <a  class="text-reset">clothes</a>
+                        </p>
+                        <p>
+                            <a  class="text-reset">electronics</a>
+                        </p>
+                        <p>
+                            <a  class="text-reset">food</a>
+                        </p>
+                        <p>
+                            <a  class="text-reset">accessories</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+    
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Useful links
+                        </h6>
+                        <p>
+                            <a href="/Signup.html" class="text-reset">signIn/signUp</a>
+                        </p>
+                        <p>
+                            <!-- <a href="#!" class="text-reset">Settings</a> -->
+                        </p>
+                        <p>
+                            <a href="/Checkout.html" class="text-reset">Orders</a>
+                        </p>
+                        <p>
+                            <a href="/CustomerSupport.html" class="text-reset">Help</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+    
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                        <p><i class="fas fa-home me-1"></i> Alex, Mandarah, Egypt</p>
+                        <p >
+                            <i class="fas fa-envelope me-1"></i>
+                            osamawebdeveloper7@gmail.com
+                        </p>
+                        <p><i class="fas fa-phone me-1"></i> +20 1110 314 566</p>
+                        <!-- <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p> -->
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+        <!-- Section: Links  -->
+    
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2025 Copyright:
+            <a class="text-reset fw-bold" style="text-decoration: none;" href="/">Online Shop  </a>
+            Made By <span style="font-weight: bold; color: red;">Osama Ahmed</span>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!----------------------------------------- Footer ------------------------------------------->
+
+
+
+
+
+
+
+
+    
+    <script src="mdb.umd.min.js"></script>
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

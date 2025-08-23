@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="mdb.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .formValidat input, .formValidat select, .formValidat textarea {
+            transition: all 0.3s ease;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        
+        .formValidat input:focus, .formValidat select:focus, .formValidat textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        
+        .submitNowBtn {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .submitNowBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+        
+        .submitNowBtn:active {
+            transform: translateY(0);
+        }
+        
+        #result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .checkout-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .formValidat {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="callUs">
+        <div class="hideIcons dNone">
+            <a class="fab-item call"      href="tel:+201110314566" aria-label="call">
+                <i class="fa-solid fa-phone"></i>
+            </a>
+            <a class="fab-item whatsapp"  href="https://wa.me/201110314566" target="_blank" rel="noopener" aria-label="whatsapp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a class="fab-item messenger" href="https://m.me/osamaasll" target="_blank" rel="noopener" aria-label="messenger">
+                <i class="fa-brands fa-facebook-messenger"></i>
+            </a>
+        </div>
+        <i class="fa-solid fa-message clickedForShow" ></i>
+        <i class="fa-solid fa-xmark "></i>
+    </div>
+    <nav  style="height: 70px; justify-content: space-between;">
+        <a href="/" class="logo"><h1><span>Online Shop</span></h1></a>
+        <a href="Checkout.html" class="orders p-2"><p style="font-size: 22px;">Orders</p></a>
+    </nav>
+
+    <!-- <div class="containCheck">
+    </div> -->
+    
+    <div class="container-fluid row p-4" style="margin-top: 100px; margin-bottom: 100px;">
+                    <div class="checkout-container col-md-6 col-sm-12">
+            <h2 style="margin-bottom: 15px; font-size: 34px; font-weight: 900; ">Checkout</h2>
+            <div id="checkoutProducts"></div>
+            <h3 id="totalPrice"></h3>
+            <div id="orderSummary" style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; display: none;">
+                <h4 style="color: #28a745; margin-bottom: 10px;">Order Summary</h4>
+                <div id="summaryDetails"></div>
+            </div>
+        </div>
+        <div class="formValidat col-md-6 col-sm-12">
+            <form id="contactForm">
+                <label >Your name</label>
+                <input type="text" name='name' placeholder='Enter your name' required/>
+                <label >Phone Number</label>
+                <input type="tel" name='phone' placeholder='Enter your phone number' required/>
+                <label >payment method</label>
+                <select name="payment method" id="payment_method">
+                    <option value="Cash">Cash on delivery</option>
+                    <option value="vod">Vodafone Cash</option>
+                </select>
+                <label >Your Email</label>
+                <input type="email" name='email' placeholder='Enter your Email' required/>
+                <label >Write your messages here</label>
+                <textarea name='message' placeholder='Enter your message' rows="6" ></textarea>
+                <button type="submit" class="submitNowBtn" id="submitBtn">Submit Order 
+                    <i class="fa-solid fa-arrow-right ms-2"></i>
+                </button>
+            </form>
+            <span id="result"></span>
+        </div>
+    </div>
+
+
+
+    <!----------------------------------- Footer --------------------------------->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>Get connected with us on social networks:</span>
+            </div>
+            <!-- Left -->
+    
+            <!-- Right -->
+            <div>
+                <a  href="https://facebook.com/osamaasll" target="_blank" class="me-4 text-reset">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                </a>
+                <a href="https://linkedin.com/in/osama-ahmed-50b82113a" target="_blank" class="me-4 text-reset">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/osamaAhmed72" target="_blank" class="me-4 text-reset">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+    
+        <!-- Section: Links  -->
+        <section class="">
+            <div class="container-fluid text-center text-md-start mt-5">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            <i class="fas fa-gem me-3"></i>Online Shop
+                        </h6>
+                        <p style="font-size: 14px; ">
+                            Here you can use rows and columns to organize your footer content. Lorem ipsum
+                            dolor sit amet, consectetur adipisicing elit.
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+    
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Products
+                        </h6>
+                        <p>
+                            <a  class="text-reset">clothes</a>
+                        </p>
+                        <p>
+                            <a  class="text-reset">electronics</a>
+                        </p>
+                        <p>
+                            <a  class="text-reset">food</a>
+                        </p>
+                        <p>
+                            <a  class="text-reset">accessories</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+    
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Useful links
+                        </h6>
+                        <p>
+                            <a href="/Signup.html" class="text-reset">signIn/signUp</a>
+                        </p>
+                        <p>
+                            <!-- <a href="#!" class="text-reset">Settings</a> -->
+                        </p>
+                        <p>
+                            <a href="/Checkout.html" class="text-reset">Orders</a>
+                        </p>
+                        <p>
+                            <a href="/CustomerSupport.html" class="text-reset">Help</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+    
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                        <p><i class="fas fa-home me-1"></i> Alex, Mandarah, Egypt</p>
+                        <p >
+                            <i class="fas fa-envelope me-1"></i>
+                            osamawebdeveloper7@gmail.com
+                        </p>
+                        <p><i class="fas fa-phone me-1"></i> +20 1110 314 566</p>
+                        <!-- <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p> -->
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+        <!-- Section: Links  -->
+    
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2021 Copyright:
+            <a class="text-reset fw-bold" style="text-decoration: none;" href="/">Online Shop  </a>
+            Made By <span style="font-weight: bold; color: red;">Osama Ahmed</span>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!----------------------------------------- Footer ------------------------------------------->
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        // Basic form validation
+        const form = this;
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.style.borderColor = '#dc3545';
+                field.style.boxShadow = '0 0 0 0.2rem rgba(220, 53, 69, 0.25)';
+                isValid = false;
+            } else {
+                field.style.borderColor = '';
+                field.style.boxShadow = '';
+            }
+        });
+
+        if (!isValid) {
+            resultElement.textContent = "Please fill in all required fields.";
+            resultElement.style.animation = "none";
+            resultElement.style.color = "#dc3545";
+            return;
+        }
+
+        // Add visual feedback for valid fields
+        requiredFields.forEach(field => {
+            if (field.value.trim()) {
+                field.style.borderColor = '#28a745';
+                field.style.boxShadow = '0 0 0 0.2rem rgba(40, 167, 69, 0.25)';
+            }
+        });
+
+        const resultElement = document.getElementById("result");
+        resultElement.textContent = "Sending....";
+        resultElement.style.animation = " resultAimation 1s infinite";
+
+        try {
+            // Get cart data from localStorage
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            
+            if (cart.length === 0) {
+                resultElement.textContent = "Cart is empty. Please add products first.";
+                resultElement.style.animation = "none";
+                return;
+            }
+
+            // Show confirmation dialog
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toFixed(2);
+            
+            const confirmOrder = confirm(`Confirm your order?\n\nTotal Items: ${totalItems}\nTotal Price: $${totalPrice}\n\nThis will clear your cart after successful submission.`);
+            
+            if (!confirmOrder) {
+                resultElement.textContent = "Order cancelled.";
+                resultElement.style.animation = "none";
+                return;
+            }
+
+            // Show order summary
+            showOrderSummary(cart, totalItems, totalPrice);
+
+            const formData = new FormData(this);
+            formData.append("access_key", "1ba4013b-e296-4ddc-b123-33e81bddf3cd");
+            
+            // Add cart products to form data
+            formData.append("cart_products", JSON.stringify(cart));
+            formData.append("total_items", cart.reduce((sum, item) => sum + item.qty, 0).toString());
+            formData.append("total_price", cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toFixed(2));
+
+            const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+            });
+
+            if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+                resultElement.textContent = "Order Submitted Successfully! Cart cleared.";
+                resultElement.style.animation = "none";
+                
+                // Clear cart and update displays
+                clearCartAfterCheckout();
+                
+                // Reset form
+                this.reset();
+                
+                // Clear checkout products display
+                document.getElementById("checkoutProducts").innerHTML = "<p style='color: #28a745; font-weight: bold;'>✅ Order submitted successfully! Your cart has been cleared.</p>";
+                document.getElementById("totalPrice").textContent = "";
+                
+                // Show success message
+                resultElement.style.color = "#28a745";
+                resultElement.style.fontWeight = "bold";
+                
+                // Redirect to home page after 3 seconds
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 3000);
+                
+            } else {
+            resultElement.textContent = data.message || "Something went wrong. Please try again.";
+            }
+        } catch (error) {
+            resultElement.textContent = "Network error. Please check your connection and try again.";
+        }
+        });
+
+        // Function to show order summary
+        function showOrderSummary(cart, totalItems, totalPrice) {
+            const orderSummary = document.getElementById("orderSummary");
+            const summaryDetails = document.getElementById("summaryDetails");
+            
+            let summaryHTML = `
+                <p><strong>Items in your order:</strong></p>
+                <ul style="list-style: none; padding-left: 0;">
+            `;
+            
+            cart.forEach(item => {
+                summaryHTML += `
+                    <li style="padding: 5px 0; border-bottom: 1px solid #dee2e6;">
+                        <strong>${item.title}</strong> - Qty: ${item.qty} - $${(item.price * item.qty).toFixed(2)}
+                    </li>
+                `;
+            });
+            
+            summaryHTML += `
+                </ul>
+                <hr>
+                <p><strong>Total Items:</strong> ${totalItems}</p>
+                <p><strong>Total Price:</strong> $${totalPrice}</p>
+            `;
+            
+            summaryDetails.innerHTML = summaryHTML;
+            orderSummary.style.display = "block";
+        }
+
+        // Function to clear cart and update displays
+        function clearCartAfterCheckout() {
+            // Clear cart from localStorage
+            localStorage.removeItem("cart");
+            
+            // Clear cart count displays (if they exist on this page)
+            const cartCounts = document.querySelectorAll('.count');
+            cartCounts.forEach(countElement => {
+                countElement.textContent = '0';
+            });
+            
+            // Clear order summary
+            document.getElementById("orderSummary").style.display = "none";
+        }
+
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>
