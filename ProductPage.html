@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Products</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
     <link rel="stylesheet" href="mdb.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -164,122 +164,6 @@
     
     
     <script src="main.js"></script>
-    <!-- <script >
-        async function fetchProducts() {
-    if (!productsContainer) return;
-  // Fake Store API
-    const res1 = await fetch("https://fakestoreapi.com/products");
-    const data1 = await res1.json();
-
-  // DummyJSON API
-    const res2 = await fetch("https://dummyjson.com/products");
-    const data2 = await res2.json();
-  // FakeStore API
-    const res3 = await fetch("https://fakestoreapi.in/api/products");
-    const data3 = await res3.json();
-
-  // توحيد المنتجات (كلهم في Array واحدة)
-    products = [
-    ...data3.products.map(p => ({
-        id: "e_" + p.id,
-        title: p.title,
-        price: p.price,
-        image: p.image,
-        description: p.description,
-        category: p.category
-
-    })),
-    ...data1.map(p => ({
-        id: "f_" + p.id,
-        title: p.title,
-        price: p.price,
-        image: p.image,
-        description: p.description,
-        category: p.category
-    })),
-    ...data2.products.map(p => ({
-        id: "d_" + p.id,
-        title: p.title,
-        price: p.price,
-        image: p.thumbnail,
-        description: p.description,
-        category: p.category
-    }))
-    
-    ];
-
-    
-}
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        // 🟢 إضافة للسلة
-        function addToCart(product) {
-        const existing = cart.find(item => item.id === product.id);
-        if (existing) {
-            existing.qty++;
-        } else {
-            cart.push({ ...product, qty: 1 });
-        }
-        saveCart();
-        alert("✅ Added to cart");
-        }
-
-        function saveCart() {
-        localStorage.setItem("cart", JSON.stringify(cart));
-        }
-
-        async function loadProductPage() {
-        // هات id من URL
-        const params = new URLSearchParams(window.location.search);
-        const productId = params.get("id");
-
-        if (!productId) return;
-
-        // هات كل المنتجات من fakestoreapi
-        const res = await fetch("https://fakestoreapi.com/products");
-        const products = await res.json();
-
-        // هات المنتج الحالي
-        const product = products.find(p => p.id == productId);
-
-        const detailsDiv = document.getElementById("productDetails");
-        detailsDiv.innerHTML = `
-            <h2>${product.title}</h2>
-            <img src="${product.image}" alt="${product.title}" style="max-width:200px;">
-            <p>${product.description}</p>
-            <p><strong>Price:</strong> $${product.price}</p>
-            <button id="addBtn">Add to Cart</button>
-        `;
-
-        // 🟢 اربط زرار Add to Cart بالمنتج الحالي
-        document.getElementById("addBtn").addEventListener("click", () => {
-            addToCart(product);
-        });
-
-        // منتجات مشابهة
-        const similar = products.filter(p => p.category === product.category && p.id != product.id);
-
-        const similarDiv = document.getElementById("similarProducts");
-        similar.forEach(p => {
-            const card = document.createElement("div");
-            card.classList.add("card");
-            card.style.width = "15rem";
-            card.innerHTML = `
-            <a href="product.html?id=${p.id}">
-                <img src="${p.image}" class="card-img-top" alt="${p.title}">
-            </a>
-            <div class="card-body">
-                <h6>${p.title}</h6>
-                <p>$${p.price}</p>
-            </div>
-            `;
-            similarDiv.appendChild(card);
-        });
-        }
-
-        loadProductPage();
-
-    </script> -->
 </body>
 <body>
     

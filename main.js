@@ -125,23 +125,19 @@ function signUp() {
 
     auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      // تم إنشاء الحساب بنجاح
-      const user = userCredential.user;
-      
-      // تحديث اسم العرض (اختياري)
-      return user.updateProfile({
+        const user = userCredential.user;
+        return user.updateProfile({
         displayName: username
-      });
+    });
     })
     .then(() => {
-      // إعادة التوجيه أو عرض رسالة نجاح
-      alert("تم إنشاء الحساب بنجاح!");
-      window.location.href = "index.html";
+        alert("account create successfully");
+        window.location.href = "index.html";
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
     });
 }
 
@@ -187,11 +183,9 @@ function signIn() {
     });
 }
 
-// متابعة حالة تسجيل الدخول
     auth.onAuthStateChanged((user) => {
     if (user) {
         console.log("User is signed in:", user.email);
-        // تقدر هنا تخزن بيانات المستخدم لو محتاج
         localStorage.setItem("isLoggedIn", "true"); 
         localStorage.setItem("userEmail", user.email); 
     } else {
@@ -200,12 +194,6 @@ function signIn() {
         localStorage.removeItem("userEmail");
     }
     });
-
-
-
-
-
-
 
 // ------------------------------end of login and sign up-----------------------------------
 
@@ -222,7 +210,6 @@ firebase.auth().onAuthStateChanged((user) => {
     const orders = document.querySelector('.orders');
 
     if (user) {
-        // عرض بيانات المستخدم
         if (usernameInput)
             usernameInput.textContent = `Hello, ${user.displayName}` || ` Hello, ${user.email.split('@')[0]}`;
         if (usernameInputSide)
@@ -257,14 +244,12 @@ firebase.auth().onAuthStateChanged((user) => {
             }).catch(() => {});
         } catch (_) {}
 
-        // إظهار لينك البروفايل وإخفاء زرار تسجيل الدخول
         if (profileLink) profileLink.classList.remove('hiddenLink');
         if (profileLinkSide) profileLinkSide.classList.remove('hiddenLinkSide');
         if (loginDiv) loginDiv.style.display = 'none';
         if (loginDivSide) loginDivSide.style.display = 'none';
         if (orders) orders.style.padding = '3px';
     } else {
-        // إخفاء لينك البروفايل وإظهار زرار تسجيل الدخول
         if (profileLink) profileLink.classList.add('hiddenLink');
         if (profileLinkSide) profileLinkSide.classList.add('hiddenLinkSide');
         if (loginDiv) loginDiv.style.display = 'block';
@@ -682,7 +667,6 @@ async function fetchProducts() {
     const res3 = await fetch("https://fakestoreapi.in/api/products");
     const data3 = await res3.json();
 
-  // توحيد المنتجات (كلهم في Array واحدة)
     products = [
     ...data3.products.map(p => ({
         id:  p.id,
@@ -713,10 +697,6 @@ async function fetchProducts() {
     ];
 
     totalPages = Math.ceil(products.length / perPage);
-    // displayProducts(currentPage);
-    // setupPagination();
-    // loadCategories(products);
-
     filteredProducts = products;          
     currentPage = 1;
     displayProductsList(filteredProducts, currentPage);
@@ -727,7 +707,6 @@ async function fetchProducts() {
 // =========================================================================================product page
 
 
-        // 🟢 إضافة للسلة
         function addToCart(product) {
         const existing = cart.find(item => item.id === product.id);
         if (existing) {
@@ -744,8 +723,8 @@ async function fetchProducts() {
         }
 
         async function loadProductPage() {
-        // هات id من URL
-        const params = new URLSearchParams(window.location.search);
+
+            const params = new URLSearchParams(window.location.search);
         const productId = params.get("id");
 
         if (!productId) return;
@@ -761,7 +740,6 @@ async function fetchProducts() {
             const data3 = await res3.json();
             
 
-        // توحيد المنتجات (كلهم في Array واحدة)
             products = [
             ...data3.products.map(p => ({
                 id: p.id,
@@ -795,7 +773,6 @@ async function fetchProducts() {
 
         
 
-        // هات المنتج الحالي
         const product = products.find(p => p.id == productId);
 
         const detailsDiv = document.getElementById("productDetails");
@@ -812,12 +789,10 @@ async function fetchProducts() {
             </div>
         `;
 
-        // 🟢 اربط زرار Add to Cart بالمنتج الحالي
         document.getElementById("addBtn").addEventListener("click", () => {
             addToCart(product);
         });
 
-        // منتجات مشابهة
         const similar = products.filter(p => p.category === product.category && p.id != product.id);
 
         const similarDiv = document.getElementById("similarProducts");
@@ -1033,10 +1008,8 @@ function displayCart() {
         `;
         cartPage.appendChild(div);
 
-        // حساب الإجمالي
         total += item.price * item.qty;
 
-        // زرار + 
         div.querySelector(".increase").addEventListener("click", () => {
         item.qty++;
         saveCart();
@@ -1044,7 +1017,6 @@ function displayCart() {
         displayCart();
         });
 
-        // زرار -
         div.querySelector(".decrease").addEventListener("click", () => {
         if (item.qty > 1) {
             item.qty--;
@@ -1056,7 +1028,6 @@ function displayCart() {
         displayCart();
         });
 
-        // زرار Remove
         div.querySelector(".remove-btn").addEventListener("click", () => {
         cart = cart.filter(p => p.id !== item.id);
         saveCart();
@@ -1065,7 +1036,6 @@ function displayCart() {
         });
     });
 
-  // 🟢 عرض الإجمالي تحت الكارت
   const totalDiv = document.createElement("div");
   totalDiv.classList.add("totalDivContain");
   const totalP = document.createElement("p");
@@ -1104,7 +1074,6 @@ function loadCart() {
     }
 }
 
-// البحث
 function handleSearch() {
     const searchValue = document.getElementById('searchInput').value.toLowerCase();
     const categoryValue = document.getElementById('categorySelect').value;
@@ -1125,7 +1094,6 @@ function handlePriceFilter() {
     const min = parseFloat(document.getElementById("minPrice").value) || 0;
     const max = parseFloat(document.getElementById("maxPrice").value) || Infinity;
 
-    // نفلتر من الـ filteredProducts الحالية (علشان نحافظ على البحث/الكاتيجوري)
     const priceFiltered = filteredProducts.filter(p => p.price >= min && p.price <= max);
 
     document.querySelector('.leftMenuNavTwo').classList.remove('toggelMenuTwo');
@@ -1139,7 +1107,6 @@ function handlePriceFilterInput() {
     const min = parseFloat(document.getElementById("minPrice").value) || 0;
     const max = parseFloat(document.getElementById("maxPrice").value) || Infinity;
 
-    // نفلتر من الـ filteredProducts الحالية (علشان نحافظ على البحث/الكاتيجوري)
     const priceFiltered = filteredProducts.filter(p => p.price >= min && p.price <= max);
 
     currentPage = 1;
@@ -1153,13 +1120,10 @@ if(!productsContainer){
     document.getElementById("minPrice").addEventListener("input", handlePriceFilterInput);
     document.getElementById("maxPrice").addEventListener("input", handlePriceFilterInput);
 
-    // تشغيل البحث عند الضغط على الأيقونة
     document.querySelector('.searchIcon').addEventListener('click', handleSearch);
 
-    // 🟢 تشغيل البحث أثناء الكتابة (live search)
     document.getElementById('searchInput').addEventListener('input', handleSearch);
 
-    // 🟢 تشغيل البحث كمان عند تغيير الكاتيجوري
     document.getElementById('categorySelect').addEventListener('change', handleSearch);
 }
 
@@ -1170,7 +1134,6 @@ loadCart();
 fetchProducts();
 
 
-        // التحقق من تسجيل الدخول عند فتح صفحات معينة
         function checkLogin(required = false) {
         auth.onAuthStateChanged((user) => {
             if (required && !user) {
@@ -1180,11 +1143,9 @@ fetchProducts();
         });
         }
 
-        // ----------------- عند تحميل الصفحات -----------------
         window.onload = function () {
         const path = window.location.pathname;
 
-        // لو فتح checkout لازم يكون عامل لوجين
         if (path.includes("Checkout.html")) {
             checkLogin(true);
         }
@@ -1195,7 +1156,6 @@ fetchProducts();
             const checkoutDiv = document.getElementById("checkoutProducts");
             const totalPriceEl = document.getElementById("totalPrice");
 
-            // هات الكارت من localStorage
             const saved = localStorage.getItem("cart");
             if (!saved) {
                 checkoutDiv.innerHTML = "<p>Cart is empty.</p>";
@@ -1221,7 +1181,6 @@ fetchProducts();
             totalPriceEl.textContent = `Total: $${total.toFixed(2)}`;
         }
 
-            // ناديلها في صفحة checkout
         if (window.location.pathname.includes("Checkout.html")) {
             loadCheckout();
         }
