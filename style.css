@@ -1154,7 +1154,7 @@ a .location:hover{
     .searchBox{
         .selectCategory{
             gap: 4px;
-            padding: 6px ;
+            padding: 7px ;
             max-width: 60px;
         }
     input{
@@ -1164,7 +1164,7 @@ a .location:hover{
     .searchIcon{
         background-color: #FF9900;
         padding: 11px ;
-        font-size: 12px;
+        font-size: 13px;
         color: rgb(0, 0, 0);
         border-radius:  0 5px 5px 0 ;
         cursor: pointer;
@@ -1172,7 +1172,7 @@ a .location:hover{
     .searchIcon:hover{
         background-color: #d07d01;
     }
-}
+    }
 }
 
 @media  screen and (max-width: 768px){
@@ -1181,6 +1181,7 @@ a .location:hover{
         top: 35%;
         left: 25%;
     }
+    
     /* ------------------=====product page=====------------------ */
     #productDetails{
     
