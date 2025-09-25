@@ -663,11 +663,7 @@ async function fetchProducts() {
     const res2 = await fetch("https://dummyjson.com/products");
     const data2 = await res2.json();
   // FakeStore API
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 007dbcb935f85fb0057ff7592ba39e85cab07147
 
     products = [
     ...data1.map(p => ({
@@ -728,12 +724,7 @@ async function fetchProducts() {
         // DummyJSON API
             const res2 = await fetch("https://dummyjson.com/products");
             const data2 = await res2.json();
-        // FakeStore API
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 007dbcb935f85fb0057ff7592ba39e85cab07147
             
 
             products = [
