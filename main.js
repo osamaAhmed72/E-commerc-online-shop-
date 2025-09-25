@@ -663,19 +663,9 @@ async function fetchProducts() {
     const res2 = await fetch("https://dummyjson.com/products");
     const data2 = await res2.json();
   // FakeStore API
-    const res3 = await fetch("https://fakestoreapi.in/api/products");
-    const data3 = await res3.json();
+    
 
     products = [
-    ...data3.products.map(p => ({
-        id:  p.id,
-        title: p.title,
-        price: p.price,
-        image: p.image,
-        description: p.description,
-        category: p.category
-
-    })),
     ...data1.map(p => ({
         id: p.id,
         title: p.title,
@@ -735,20 +725,10 @@ async function fetchProducts() {
             const res2 = await fetch("https://dummyjson.com/products");
             const data2 = await res2.json();
         // FakeStore API
-            const res3 = await fetch("https://fakestoreapi.in/api/products");
-            const data3 = await res3.json();
+            
             
 
             products = [
-            ...data3.products.map(p => ({
-                id: p.id,
-                title: p.title,
-                price: p.price,
-                image: p.image,
-                description: p.description,
-                category: p.category,
-                
-            })),
             ...data1.map(p => ({
                 id:p.id,
                 title: p.title,
